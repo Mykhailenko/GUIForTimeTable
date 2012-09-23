@@ -1,0 +1,241 @@
+-- MySQL dump 10.13  Distrib 5.5.20, for Win32 (x86)
+--
+-- Host: localhost    Database: timetable
+-- ------------------------------------------------------
+-- Server version	5.5.20
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `computertimetable`
+--
+
+DROP TABLE IF EXISTS `computertimetable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `computertimetable` (
+  `id_computerTT` int(11) NOT NULL,
+  `day_name` varchar(100) DEFAULT NULL,
+  `lesson_number` int(11) DEFAULT NULL,
+  `auditory` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id_computerTT`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `computertimetable`
+--
+
+LOCK TABLES `computertimetable` WRITE;
+/*!40000 ALTER TABLE `computertimetable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `computertimetable` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `curriculum`
+--
+
+DROP TABLE IF EXISTS `curriculum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `curriculum` (
+  `id_corriculum` int(11) NOT NULL,
+  `ref_specialty` int(11) DEFAULT NULL,
+  `subject_name` varchar(200) DEFAULT NULL,
+  `lect_hours` int(11) DEFAULT NULL,
+  `pract_hours` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_corriculum`),
+  KEY `f1` (`ref_specialty`),
+  CONSTRAINT `f1` FOREIGN KEY (`ref_specialty`) REFERENCES `specialty` (`id_specialty`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `curriculum`
+--
+
+LOCK TABLES `curriculum` WRITE;
+/*!40000 ALTER TABLE `curriculum` DISABLE KEYS */;
+/*!40000 ALTER TABLE `curriculum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `educationalassigment`
+--
+
+DROP TABLE IF EXISTS `educationalassigment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `educationalassigment` (
+  `id_educAssigment` int(11) NOT NULL,
+  `ref_specialty` int(11) DEFAULT NULL,
+  `subject_name` varchar(200) DEFAULT NULL,
+  `cathedra_name` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id_educAssigment`),
+  KEY `f2` (`ref_specialty`),
+  CONSTRAINT `f2` FOREIGN KEY (`ref_specialty`) REFERENCES `specialty` (`id_specialty`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `educationalassigment`
+--
+
+LOCK TABLES `educationalassigment` WRITE;
+/*!40000 ALTER TABLE `educationalassigment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `educationalassigment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
+  `id_group` int(11) NOT NULL,
+  `ref_specialty` int(11) DEFAULT NULL,
+  `name_group` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `lecture`
+--
+
+DROP TABLE IF EXISTS `lecture`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lecture` (
+  `id_lecture` int(11) NOT NULL,
+  `teacher_name` varchar(200) DEFAULT NULL,
+  `ref_educAssigment` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_lecture`),
+  KEY `f4` (`ref_educAssigment`),
+  CONSTRAINT `f4` FOREIGN KEY (`ref_educAssigment`) REFERENCES `educationalassigment` (`id_educAssigment`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `lecture`
+--
+
+LOCK TABLES `lecture` WRITE;
+/*!40000 ALTER TABLE `lecture` DISABLE KEYS */;
+/*!40000 ALTER TABLE `lecture` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `practice`
+--
+
+DROP TABLE IF EXISTS `practice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `practice` (
+  `id_practice` int(11) NOT NULL,
+  `teacher_name` varchar(200) DEFAULT NULL,
+  `computer_class` int(11) DEFAULT NULL,
+  `ref_educAssigment` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_practice`),
+  KEY `f3` (`ref_educAssigment`),
+  CONSTRAINT `f3` FOREIGN KEY (`ref_educAssigment`) REFERENCES `educationalassigment` (`id_educAssigment`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `practice`
+--
+
+LOCK TABLES `practice` WRITE;
+/*!40000 ALTER TABLE `practice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `practice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `specialty`
+--
+
+DROP TABLE IF EXISTS `specialty`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `specialty` (
+  `id_specialty` int(11) NOT NULL,
+  `specialty` varchar(100) DEFAULT NULL,
+  `semester` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_specialty`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `specialty`
+--
+
+LOCK TABLES `specialty` WRITE;
+/*!40000 ALTER TABLE `specialty` DISABLE KEYS */;
+INSERT INTO `specialty` VALUES (1,'прикладная математика',1),(2,'прикладная математика',2),(3,'прикладная математика',3),(4,'прикладная математика',4),(5,'прикладная математика',5),(6,'прикладная математика',6),(7,'прикладная математика',7),(8,'прикладная математика',8),(9,'прикладная математика',9),(10,'прикладная математика',10);
+/*!40000 ALTER TABLE `specialty` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `timetablecortege`
+--
+
+DROP TABLE IF EXISTS `timetablecortege`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `timetablecortege` (
+  `id_timeTableCortege` int(11) NOT NULL,
+  `ref_specialty` int(11) DEFAULT NULL,
+  `lesson_name` varchar(300) DEFAULT NULL,
+  `ref_group` int(11) DEFAULT NULL,
+  `day_name` varchar(100) DEFAULT NULL,
+  `lesson_number` int(11) DEFAULT NULL,
+  `auditory` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id_timeTableCortege`),
+  KEY `f5` (`ref_specialty`),
+  KEY `f6` (`ref_group`),
+  CONSTRAINT `f5` FOREIGN KEY (`ref_specialty`) REFERENCES `specialty` (`id_specialty`),
+  CONSTRAINT `f6` FOREIGN KEY (`ref_group`) REFERENCES `groups` (`id_group`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `timetablecortege`
+--
+
+LOCK TABLES `timetablecortege` WRITE;
+/*!40000 ALTER TABLE `timetablecortege` DISABLE KEYS */;
+/*!40000 ALTER TABLE `timetablecortege` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2012-09-11 15:21:27
